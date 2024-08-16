@@ -1,0 +1,30 @@
+.button {
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+  font-size: 16px;
+  font-family: var(--secondary-font);
+  background-color: #fff;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  transition: 0.3s;
+}
+
+.button:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.button:active {
+  background-color: #000;
+  color: #fff;
+}
+
+.button:disabled {
+  background-color: #ccc;
+  color: #000;
+}
