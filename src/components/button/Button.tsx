@@ -1,15 +1,16 @@
+import React from "react";
 import "./buttonStyles.css";
 
 type ButtonProps = {
-  text: string;
+  children: React.ReactNode;
   type: "submit" | "reset" | "button";
   onClick: () => void;
 };
 
-export default function Button({ text, type, onClick }: ButtonProps) {
+export default function Button({ children, type, onClick }: ButtonProps) {
   return (
     <button type={type} className="button" onClick={onClick}>
-      {text}
+      {children}
     </button>
   );
 }
