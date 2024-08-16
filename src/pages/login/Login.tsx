@@ -3,40 +3,61 @@ import logo from "../../assets/images/logo.png";
 import Input from "../../components/input/Input";
 import { FaEye, FaEyeSlash, FaFacebook, FaGoogle } from "react-icons/fa";
 import Button from "../../components/button/Button";
+import "./loginStyles.css";
 
 export default function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [showPassword, setShowPassword] = React.useState("password");
   return (
-    <div>
-      <div>
+    <div className="container-login">
+      <div className="content-login">
         <img src={logo} alt="logo.png" className="logo" />
-        <form action="">
+        <form className="form-login">
+          <label htmlFor="Email" className="label">
+            Email
+          </label>
           <Input
             label={"Email"}
-            type={"exemplo@email.com"}
-            placeholder={"Email"}
+            type={"email"}
+            placeholder={"example@email.com"}
             onChange={(e) => setEmail(e.target.value)}
             value={email}
           />
+          <label htmlFor="Password" className="label">
+            Password
+          </label>
           <div className="input-password">
             <Input
               label={"Password"}
-              type={"Password"}
+              type={showPassword}
               placeholder={"********"}
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
-            <FaEye />
-            <FaEyeSlash />
+            {showPassword === "password" ? (
+              <FaEyeSlash onClick={() => setShowPassword("text")} />
+            ) : (
+              <FaEye onClick={() => setShowPassword("password")} />
+            )}
           </div>
           <Button type="submit" onClick={() => {}}>
             Login
           </Button>
         </form>
-        <div>
-          <a href="#">Esqueceu sua senha?</a>
+        <div className="login-footer">
+          <p className="login-footer-text">
+            Não tem uma conta?{" "}
+            <a href="/signup" className="register-link">
+              Crie uma agora
+            </a>
+          </p>
+
+          <a href="#" className="forgot-password">
+            Esqueceu sua senha?
+          </a>
         </div>
+
         <div className="buttons-login">
           <Button type="button" onClick={() => {}}>
             <FaGoogle />
@@ -44,10 +65,6 @@ export default function Login() {
           <Button type="button" onClick={() => {}}>
             <FaFacebook />
           </Button>
-        </div>
-        <div>
-          <p>Não tem uma conta?</p>
-          <a href="/signup">Crie uma agora</a>
         </div>
       </div>
     </div>

@@ -7,10 +7,10 @@ export default function Home() {
       <div className="content">
         <img src={logo} alt="logo.png" className="logo" />
         <div className="buttons">
-          <a href="/login" className="login-link-button">
+          <a href="/signin" className="login-link-button">
             Sign In
           </a>
-          <a href="/regsiter" className="register-link-button">
+          <a href="/signup" className="register-link-button">
             Sign Up
           </a>
         </div>

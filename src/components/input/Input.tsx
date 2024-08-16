@@ -17,20 +17,15 @@ export default function Input({
   onChange,
 }: InputProps) {
   return (
-    <div className="input">
-      <label htmlFor={label} className="label">
-        {label}
-      </label>
-      <input
-        className="input__field"
-        id={label}
-        name={label}
-        autoComplete="off"
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-      />
-    </div>
+    <input
+      className="input__field"
+      id={label}
+      name={label}
+      autoComplete="off"
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+    />
   );
 }

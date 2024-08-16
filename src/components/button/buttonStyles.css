@@ -5,23 +5,18 @@
   border: 1px solid #ccc;
   padding: 0 10px;
   font-size: 16px;
-  font-family: var(--secondary-font);
-  background-color: #fff;
-  color: #000;
-  font-weight: bold;
-  cursor: pointer;
-  outline: none;
-  transition: 0.3s;
-}
-
-.button:hover {
+  font-family: var(--primary-font);
   background-color: #000;
   color: #fff;
+  cursor: pointer;
+  outline: none;
+  transition: 50ms;
+  text-transform: uppercase;
 }
 
 .button:active {
-  background-color: #000;
-  color: #fff;
+  background-color: #fff;
+  color: #000;
 }
 
 .button:disabled {

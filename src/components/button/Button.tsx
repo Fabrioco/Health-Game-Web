@@ -9,7 +9,7 @@ type ButtonProps = {
 
 export default function Button({ children, type, onClick }: ButtonProps) {
   return (
-    <button type={type} className="button" onClick={onClick}>
+    <button type={type} className="button" role="button" onClick={onClick}>
       {children}
     </button>
   );
