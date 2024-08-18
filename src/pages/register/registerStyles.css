@@ -7,3 +7,19 @@
   margin-bottom: 10px;
   font-family: var(--tertiary-font);
 }
+
+.block-link {
+  font-family: var(--tertiary-font);
+  display: flex;
+  gap: 5px;
+}
+
+.block-link > .link {
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.block-link > .link:hover {
+  text-decoration: underline;
+}
