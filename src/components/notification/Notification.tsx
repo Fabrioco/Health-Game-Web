@@ -11,9 +11,9 @@ export default function Notification({
   return (
     <div className="notification">
       {type === "success" ? (
-        <FaCheckCircle color="green" size={20} />
+        <FaCheckCircle color="green" size={25} />
       ) : (
-        <FaExclamationTriangle color="red" size={20} />
+        <FaExclamationTriangle color="red" size={25} />
       )}
       <span className="message">{message}</span>
     </div>
