@@ -20,12 +20,12 @@ export default function Login() {
           <Input
             label={"Email"}
             type={"email"}
-            placeholder={"example@email.com"}
+            placeholder={"exemplo@email.com"}
             onChange={(e) => setEmail(e.target.value)}
             value={email}
           />
           <label htmlFor="Password" className="label">
-            Password
+            Senha
           </label>
           <div className="input-password">
             <Input
@@ -42,7 +42,7 @@ export default function Login() {
             )}
           </div>
           <Button type="submit" onClick={() => {}}>
-            Login
+            Entrar
           </Button>
         </form>
         <div className="login-footer">
