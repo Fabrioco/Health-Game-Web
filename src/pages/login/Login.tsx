@@ -10,10 +10,10 @@ export default function Login() {
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState("password");
   return (
-    <div className="container-login">
-      <div className="content-login">
+    <div className="container-form">
+      <div className="content-form">
         <img src={logo} alt="logo.png" className="logo" />
-        <form className="form-login">
+        <form className="form">
           <label htmlFor="Email" className="label">
             Email
           </label>
@@ -45,10 +45,10 @@ export default function Login() {
             Entrar
           </Button>
         </form>
-        <div className="login-footer">
-          <p className="login-footer-text">
+        <div className="form-footer">
+          <p className="form-footer-text">
             Não tem uma conta?{" "}
-            <a href="/signup" className="register-link">
+            <a href="/signup" className="link">
               Crie uma agora
             </a>
           </p>
@@ -58,7 +58,7 @@ export default function Login() {
           </a>
         </div>
 
-        <div className="buttons-login">
+        <div className="buttons-form">
           <Button type="button" onClick={() => {}}>
             <FaGoogle />
           </Button>
