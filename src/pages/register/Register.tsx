@@ -5,11 +5,11 @@ import logo from "../../assets/images/logo.png";
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import "./registerStyles.css";
 import { useAuth } from "../../contexts/auth";
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../services/firebaseConnection";
 
 export default function Register() {
-  const { signUp, showNotification } = useAuth();
+  const { signUp, showNotification, sigInWithGoogle } = useAuth();
 
   const [showPassword, setShowPassword] = React.useState("password");
   const [showConfirmPassword, setShowConfirmPassword] =
@@ -18,9 +18,18 @@ export default function Register() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPasswod] = React.useState("");
+  const [checkbox, setCheckbox] = React.useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!checkbox) {
+      showNotification({
+        message: "Aceite os termos de uso",
+        type: "error",
+      });
+      return;
+    }
 
     if (!username || !email || !password || !confirmPassword) {
       showNotification({
@@ -59,6 +68,10 @@ export default function Register() {
     });
 
     return isTaken;
+  };
+
+  const signInGoogle = () => {
+    sigInWithGoogle();
   };
 
   return (
@@ -121,7 +134,12 @@ export default function Register() {
             )}
           </div>
           <div className="checkbox">
-            <input type="checkbox" name="checkbox" id="checkbox" />
+            <input
+              type="checkbox"
+              name="checkbox"
+              id="checkbox"
+              onClick={() => setCheckbox(!checkbox)}
+            />
             <label htmlFor="checkbox">
               Eu li e concordo com os termos e condições
             </label>
@@ -131,7 +149,7 @@ export default function Register() {
           </Button>
         </form>
         <div className="buttons-form">
-          <Button onClick={() => {}} type="button">
+          <Button onClick={signInGoogle} type="button">
             <FaGoogle />
           </Button>
         </div>

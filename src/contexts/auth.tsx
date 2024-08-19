@@ -1,6 +1,10 @@
 import React from "react";
-import { auth, db } from "../services/firebaseConnection";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db, provider } from "../services/firebaseConnection";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import Notification from "../components/notification/Notification";
 import { doc, setDoc } from "firebase/firestore";
 
@@ -9,6 +13,7 @@ type AuthProviderChildrenType = {
 };
 
 type ContextAuthProviderProps = {
+  signIn: (email: string, password: string) => Promise<void>;
   signUp: (username: string, email: string, password: string) => Promise<void>;
   showNotification: ({
     message,
@@ -17,6 +22,7 @@ type ContextAuthProviderProps = {
     message: string;
     type: string;
   }) => void;
+  sigInWithGoogle: () => void;
 };
 
 const ContextAuthProvider = React.createContext({} as ContextAuthProviderProps);
@@ -27,6 +33,29 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
     type: "",
   });
 
+  const signIn = async (email: string, password: string) => {
+    await signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        showNotification({
+          message: "Logado com sucesso!",
+          type: "success",
+        });
+        window.location.href = "/welcome";
+      })
+      .catch((error) => {
+        if (error.message === "auth/user-not-found") {
+          showNotification({
+            message: "Email não encontrado",
+            type: "error",
+          });
+        } else if (error.message === "auth/wrong-password") {
+          showNotification({
+            message: "Senha inválida",
+            type: "error",
+          });
+        }
+      });
+  };
   const signUp = async (username: string, email: string, password: string) => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async (user) => {
@@ -57,6 +86,20 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
       });
   };
 
+  const sigInWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then(() => {
+        window.location.href = "/welcome";
+        showNotification({
+          message: "Logado com sucesso!",
+          type: "success",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const showNotification = ({
     message,
     type,
@@ -77,7 +120,9 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
   };
 
   return (
-    <ContextAuthProvider.Provider value={{ signUp, showNotification }}>
+    <ContextAuthProvider.Provider
+      value={{ signIn, signUp, showNotification, sigInWithGoogle }}
+    >
       {children}
       {notification.message && (
         <Notification message={notification.message} type={notification.type} />

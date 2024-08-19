@@ -8,10 +8,10 @@ export default function Home() {
         <img src={logo} alt="logo.png" className="logo" />
         <div className="buttons">
           <a href="/signin" className="login-link-button">
-            Sign In
+            Entrar
           </a>
           <a href="/signup" className="register-link-button">
-            Sign Up
+            Registrar-se
           </a>
         </div>
       </div>

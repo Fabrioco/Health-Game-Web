@@ -1,19 +1,41 @@
 import React from "react";
 import logo from "../../assets/images/logo.png";
 import Input from "../../components/input/Input";
-import { FaEye, FaEyeSlash, FaFacebook, FaGoogle } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import Button from "../../components/button/Button";
 import "./loginStyles.css";
+import { useAuth } from "../../contexts/auth";
 
 export default function Login() {
+  const { showNotification, sigInWithGoogle, signIn } = useAuth();
+
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState("password");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      showNotification({
+        message: "Preencha todos os campos",
+        type: "error",
+      });
+      return;
+    }
+
+    signIn(email, password);
+  };
+
+  const signInGoogle = () => {
+    sigInWithGoogle();
+  };
+
   return (
     <div className="container-form">
       <div className="content-form">
         <img src={logo} alt="logo.png" className="logo" />
-        <form className="form">
+        <form className="form" onSubmit={handleLogin}>
           <label htmlFor="Email" className="label">
             Email
           </label>
@@ -59,11 +81,8 @@ export default function Login() {
         </div>
 
         <div className="buttons-form">
-          <Button type="button" onClick={() => {}}>
+          <Button type="button" onClick={signInGoogle}>
             <FaGoogle />
-          </Button>
-          <Button type="button" onClick={() => {}}>
-            <FaFacebook />
           </Button>
         </div>
       </div>
