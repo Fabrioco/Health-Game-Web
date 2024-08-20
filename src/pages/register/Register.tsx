@@ -155,7 +155,7 @@ export default function Register() {
         </div>
         <div className="block-link">
           <p className="text">Ja possui conta?</p>
-          <a href="" className="link">
+          <a href="/signin" className="link">
             Clique aqui
           </a>
         </div>

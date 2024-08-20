@@ -13,7 +13,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<Login />} />
           <Route path="/signup" element={<Register />} />
-          <Route path="/welcome:profileName" element={<Welcome />} />
+          <Route path="/welcome" element={<Welcome />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
