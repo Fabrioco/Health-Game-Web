@@ -6,7 +6,7 @@ type PrivateRouteProps = {
   children: React.ReactNode;
 };
 
-export const PrivateRoute = ({ children }: PrivateRouteProps) => {
+export default function PrivateRoute({ children }: PrivateRouteProps) {
   const [signed, setSigned] = React.useState(false);
 
   React.useEffect(() => {
@@ -23,5 +23,6 @@ export const PrivateRoute = ({ children }: PrivateRouteProps) => {
   if (!signed) {
     return null;
   }
-  return children;
-};
+
+  return <>{children}</>;
+}
