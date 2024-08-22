@@ -1,12 +1,14 @@
 import { onAuthStateChanged } from "firebase/auth";
 import React from "react";
 import { auth } from "../services/firebaseConnection";
+import { useNavigate } from "react-router-dom";
 
 type PrivateRouteProps = {
   children: React.ReactNode;
 };
 
-export default function PrivateRoute({ children }: PrivateRouteProps) {
+export function PrivateRoute({ children }: PrivateRouteProps) {
+  const navigate = useNavigate();
   const [signed, setSigned] = React.useState(false);
 
   React.useEffect(() => {
@@ -14,11 +16,11 @@ export default function PrivateRoute({ children }: PrivateRouteProps) {
       if (user) {
         setSigned(true);
       } else {
-        window.location.href = "/";
+        navigate("/");
       }
     });
     return () => unsub();
-  }, [window.location.pathname]);
+  }, [navigate]);
 
   if (!signed) {
     return null;

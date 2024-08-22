@@ -6,11 +6,18 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import Notification from "../components/notification/Notification";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 type AuthProviderChildrenType = {
   children: React.ReactNode;
 };
+
+export interface UserProps {
+  uid: string;
+  username: string;
+  email: string;
+  photoURL: string;
+}
 
 type ContextAuthProviderProps = {
   signIn: (email: string, password: string) => Promise<void>;
@@ -23,11 +30,14 @@ type ContextAuthProviderProps = {
     type: string;
   }) => void;
   sigInWithGoogle: () => void;
+  user: UserProps | null;
+  setUser: (user: UserProps) => void;
 };
 
 const ContextAuthProvider = React.createContext({} as ContextAuthProviderProps);
 
 export function AuthProvider({ children }: AuthProviderChildrenType) {
+  const [user, setUser] = React.useState<UserProps | null>(null);
   const [notification, setNotification] = React.useState({
     message: "",
     type: "",
@@ -121,7 +131,14 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
 
   return (
     <ContextAuthProvider.Provider
-      value={{ signIn, signUp, showNotification, sigInWithGoogle }}
+      value={{
+        signIn,
+        signUp,
+        showNotification,
+        sigInWithGoogle,
+        user,
+        setUser,
+      }}
     >
       {children}
       {notification.message && (
