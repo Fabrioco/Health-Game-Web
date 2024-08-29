@@ -1,0 +1,55 @@
+.content-welcome {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: clamp(700px, 100vw, 1200px);
+  height: 700px;
+  max-height: 900px;
+  background-color: #bfffbc;
+  border-radius: 20px;
+  box-shadow: 0 0 7px 0 #646464;
+  padding: 20px;
+  gap: 20px;
+}
+
+.stage-message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.content-messages {
+  width: 100%;
+  max-height: 250px;
+  display: flex;
+  gap: 10px;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message {
+  width: 100%;
+  font-family: var(--tertiary-font);
+  font-size: 1.2rem;
+  background-color: #fff;
+  padding: 5px 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 #929292c2;
+}
+
+.stage-message > .buttons {
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
+  width: 40%;
+}
+
+.img-pet {
+  align-self: flex-end;
+  width: 300px;
+  height: 300px;
+}
