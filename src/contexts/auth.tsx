@@ -7,6 +7,7 @@ import {
 } from "firebase/auth";
 import Notification from "../components/notification/Notification";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 type AuthProviderChildrenType = {
   children: React.ReactNode;
@@ -32,6 +33,7 @@ type ContextAuthProviderProps = {
   sigInWithGoogle: () => void;
   user: UserProps | null;
   setUser: (user: UserProps) => void;
+  navigateTo: (route: string) => void;
 };
 
 const ContextAuthProvider = React.createContext({} as ContextAuthProviderProps);
@@ -42,6 +44,8 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
     message: "",
     type: "",
   });
+
+  const navigate = useNavigate();
 
   const signIn = async (email: string, password: string) => {
     await signInWithEmailAndPassword(auth, email, password)
@@ -129,6 +133,10 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
     }, 3000);
   };
 
+  const navigateTo = (route: string) => {
+    navigate(`/${route}`);
+  };
+
   return (
     <ContextAuthProvider.Provider
       value={{
@@ -138,6 +146,7 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
         sigInWithGoogle,
         user,
         setUser,
+        navigateTo,
       }}
     >
       {children}
