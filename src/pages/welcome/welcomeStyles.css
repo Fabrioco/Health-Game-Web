@@ -31,7 +31,7 @@
   gap: 10px;
 }
 
-.message {
+.messages .message {
   width: 100%;
   font-family: var(--tertiary-font);
   font-size: 1.2rem;
@@ -46,6 +46,12 @@
   flex-direction: row;
   align-self: flex-end;
   width: 40%;
+}
+
+.img-demo {
+  width: 400px;
+  height: 200px;
+  border-radius: 5px;
 }
 
 .img-pet {

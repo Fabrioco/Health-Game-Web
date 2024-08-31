@@ -5,11 +5,12 @@ import React from "react";
 import { doc, getDoc } from "firebase/firestore";
 import Button from "../../components/button/Button";
 import pet from "../../assets/images/pet.png";
+import demo from "../../assets/images/demonstration.png";
 
 import "./welcomeStyles.css";
 
 export default function Welcome() {
-  const { showNotification, user, setUser } = useAuth();
+  const { showNotification, user, setUser, navigateTo } = useAuth();
   const [end, setEnd] = React.useState(1);
 
   const handleSignOut = () => {
@@ -62,6 +63,26 @@ export default function Welcome() {
                 voltar as etapas para entender melhor!
               </p>
             )}
+            {end >= 4 && (
+              <div className="message" style={{ display: "flex", gap: 10 }}>
+                <img src={demo} alt="demonstration.png" className="img-demo" />
+                <div>
+                  <p>
+                    <b>Nivel</b> - Você sobe de nivel sempre que completar uma
+                    tarefa.
+                  </p>
+                  <p>
+                    <b>Troféu</b> - Você pode ganhar troféus quando fizer uma
+                    conquista por um tempo determinado. Exemplo: beber água por
+                    10 dias.
+                  </p>
+                  <p>
+                    <b>Lista de amigos</b> - Você pode procurar amigos e ver seu
+                    perfil, conquistas e adicionar pessoas.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
           <div className="buttons">
             <Button
@@ -70,10 +91,17 @@ export default function Welcome() {
               }
               type="button"
             >
-              {end === 1 ? <p>Sair da conta</p> : <p>VOLTAR</p>}
+              {end === 1 ? <p>Sair da conta</p> : <p>voltar</p>}
             </Button>
-            <Button onClick={() => setEnd((end) => end + 1)} type="button">
-              AVANÇAR
+            <Button
+              onClick={
+                end === 4
+                  ? () => navigateTo("dashboard")
+                  : () => setEnd((end) => end + 1)
+              }
+              type="button"
+            >
+              {end === 4 ? <p>Começar</p> : <p>Avançar</p>}
             </Button>
           </div>
         </div>
