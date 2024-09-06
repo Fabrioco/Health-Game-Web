@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
 import Notification from "../components/notification/Notification";
 import { doc, getDoc, setDoc } from "firebase/firestore";
@@ -34,6 +35,7 @@ type ContextAuthProviderProps = {
   user: UserProps | null;
   setUser: (user: UserProps) => void;
   navigateTo: (route: string) => void;
+  logOut: () => Promise<void>;
 };
 
 const ContextAuthProvider = React.createContext({} as ContextAuthProviderProps);
@@ -54,6 +56,7 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
           message: "Logado com sucesso!",
           type: "success",
         });
+
         window.location.href = "/welcome";
       })
       .catch((error) => {
@@ -69,7 +72,9 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
           });
         }
       });
+    storageUser();
   };
+
   const signUp = async (username: string, email: string, password: string) => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async (user) => {
@@ -97,6 +102,42 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
             type: "error",
           });
         }
+      });
+  };
+
+  const storageUser = async () => {
+    alert("foi chamado storageUser");
+    const uid = auth.currentUser?.uid;
+
+    const docRef = doc(db, "players", `${uid}`);
+    const docSnap = await getDoc(docRef);
+
+    const userData = docSnap.data() as UserProps;
+    const userJson = JSON.stringify(userData);
+
+    setUser(userData as UserProps);
+    localStorage.setItem("@User", userJson);
+  };
+
+  const removeUser = () => {
+    localStorage.removeItem("@User");
+    setUser(null);
+  };
+
+  const logOut = async () => {
+    await signOut(auth)
+      .then(() => {
+        removeUser();
+        showNotification({
+          message: "Deslogado com sucesso!",
+          type: "success",
+        });
+      })
+      .catch((error) => {
+        showNotification({
+          message: error.message,
+          type: "error",
+        });
       });
   };
 
@@ -147,6 +188,7 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
         user,
         setUser,
         navigateTo,
+        logOut,
       }}
     >
       {children}

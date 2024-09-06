@@ -10,36 +10,14 @@ import demo from "../../assets/images/demonstration.png";
 import "./welcomeStyles.css";
 
 export default function Welcome() {
-  const { showNotification, user, setUser, navigateTo } = useAuth();
+  const { user, navigateTo, logOut } = useAuth();
   const [end, setEnd] = React.useState(1);
 
   const handleSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        showNotification({
-          message: "Deslogado com sucesso!",
-          type: "success",
-        });
-      })
-      .catch((error) => {
-        showNotification({
-          message: error.message,
-          type: "error",
-        });
-      });
+    logOut();
   };
 
-  React.useEffect(() => {
-    if (auth.currentUser) {
-      fetchData();
-    }
-  }, []);
-
-  const fetchData = async () => {
-    const docRef = doc(db, "players", `${auth.currentUser?.uid}`);
-    const data = await getDoc(docRef);
-    setUser(data.data() as UserProps);
-  };
+  console.log(user?.username)
 
   return (
     <div className="container">

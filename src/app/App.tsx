@@ -5,6 +5,7 @@ import Register from "../pages/register/Register";
 import Welcome from "../pages/welcome/Welcome";
 import { AuthProvider } from "../contexts/auth";
 import { PrivateRoute } from "../routes/private";
+import Dashboard from "../pages/dashboard/Dashboard";
 
 export default function App() {
   return (
@@ -19,6 +20,14 @@ export default function App() {
             element={
               <PrivateRoute>
                 <Welcome />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
               </PrivateRoute>
             }
           />
