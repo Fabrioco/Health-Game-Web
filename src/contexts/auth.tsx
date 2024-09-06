@@ -18,7 +18,7 @@ export interface UserProps {
   uid: string;
   username: string;
   email: string;
-  photoURL: string;
+  password: string;
 }
 
 type ContextAuthProviderProps = {
@@ -34,7 +34,6 @@ type ContextAuthProviderProps = {
   sigInWithGoogle: () => void;
   user: UserProps | null;
   setUser: (user: UserProps) => void;
-  navigateTo: (route: string) => void;
   logOut: () => Promise<void>;
 };
 
@@ -47,16 +46,34 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
     type: "",
   });
 
-  const navigate = useNavigate();
+  React.useEffect(() => {
+    const userStoraged = localStorage.getItem("@User");
+    if (userStoraged) setUser(JSON.parse(userStoraged));
+  }, []);
 
   const signIn = async (email: string, password: string) => {
     await signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
+      .then(async (value) => {
+        const idUser = value.user.uid;
+
+        const docRef = doc(db, "players", idUser);
+        const docSnap = getDoc(docRef);
+
+        if ((await docSnap).exists()) {
+          const data: UserProps = {
+            uid: idUser,
+            username: (await docSnap).data()?.username,
+            email: value.user.email!,
+            password: (await docSnap).data()?.password,
+          };
+          setUser(data);
+          storageUser(data);
+        }
+
         showNotification({
           message: "Logado com sucesso!",
           type: "success",
         });
-
         window.location.href = "/welcome";
       })
       .catch((error) => {
@@ -72,7 +89,6 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
           });
         }
       });
-    storageUser();
   };
 
   const signUp = async (username: string, email: string, password: string) => {
@@ -105,18 +121,8 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
       });
   };
 
-  const storageUser = async () => {
-    alert("foi chamado storageUser");
-    const uid = auth.currentUser?.uid;
-
-    const docRef = doc(db, "players", `${uid}`);
-    const docSnap = await getDoc(docRef);
-
-    const userData = docSnap.data() as UserProps;
-    const userJson = JSON.stringify(userData);
-
-    setUser(userData as UserProps);
-    localStorage.setItem("@User", userJson);
+  const storageUser = (data: UserProps) => {
+    localStorage.setItem("@User", JSON.stringify(data));
   };
 
   const removeUser = () => {
@@ -174,10 +180,6 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
     }, 3000);
   };
 
-  const navigateTo = (route: string) => {
-    navigate(`/${route}`);
-  };
-
   return (
     <ContextAuthProvider.Provider
       value={{
@@ -187,7 +189,6 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
         sigInWithGoogle,
         user,
         setUser,
-        navigateTo,
         logOut,
       }}
     >
