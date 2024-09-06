@@ -8,16 +8,18 @@ import pet from "../../assets/images/pet.png";
 import demo from "../../assets/images/demonstration.png";
 
 import "./welcomeStyles.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Welcome() {
-  const { user, navigateTo, logOut } = useAuth();
+  const navigate = useNavigate();
+  const { user, logOut } = useAuth();
   const [end, setEnd] = React.useState(1);
 
   const handleSignOut = () => {
     logOut();
   };
 
-  console.log(user?.username)
+  console.log(user?.username);
 
   return (
     <div className="container">
@@ -74,7 +76,7 @@ export default function Welcome() {
             <Button
               onClick={
                 end === 4
-                  ? () => navigateTo("dashboard")
+                  ? () => navigate("/dashboard")
                   : () => setEnd((end) => end + 1)
               }
               type="button"
