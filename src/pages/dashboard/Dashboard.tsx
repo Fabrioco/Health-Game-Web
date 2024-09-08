@@ -4,15 +4,17 @@ import { FaTrophy } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { IoMdExit } from "react-icons/io";
 import "./dashboardStyles.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const { user, logOut } = useAuth();
 
   const signOut = () => {
     logOut();
   };
 
-  console.log(user)
+  console.log(user);
 
   return (
     <div className="container">
@@ -25,7 +27,11 @@ export default function Dashboard() {
           </div>
           <span>4</span>
           <FaTrophy color="#FFC300" size={35} />
-          <IoSettings color="#000" size={35} />
+          <IoSettings
+            onClick={() => navigate("/profile")}
+            color="#000"
+            size={35}
+          />
           <IoMdExit onClick={signOut} color="#FF0000" size={35} />
         </header>
         <main></main>
