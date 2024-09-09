@@ -46,10 +46,18 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
     type: "",
   });
 
+  const navigate = useNavigate();
+
   React.useEffect(() => {
     const userStoraged = localStorage.getItem("@User");
     if (userStoraged) setUser(JSON.parse(userStoraged));
   }, []);
+
+  React.useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user]);
 
   const signIn = async (email: string, password: string) => {
     await signInWithEmailAndPassword(auth, email, password)
