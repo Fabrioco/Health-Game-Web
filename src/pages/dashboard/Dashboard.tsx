@@ -5,8 +5,10 @@ import { IoSettings } from "react-icons/io5";
 import { IoMdExit } from "react-icons/io";
 import "./dashboardStyles.css";
 import Button from "../../components/button/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const { user, logOut } = useAuth();
 
   const signOut = () => {
