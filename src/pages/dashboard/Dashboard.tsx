@@ -36,7 +36,11 @@ export default function Dashboard() {
             <FaTrophy color="#FFC300" size={35} />
           </div>
           <i className="settings">
-            <IoSettings color="#000" size={35} />
+            <IoSettings
+              onClick={() => navigate("/profile")}
+              color="#000"
+              size={35}
+            />
           </i>
         </div>
         <div className="main-dashboard__content">
