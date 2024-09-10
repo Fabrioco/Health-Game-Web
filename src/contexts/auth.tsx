@@ -8,7 +8,6 @@ import {
 } from "firebase/auth";
 import Notification from "../components/notification/Notification";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
 
 type AuthProviderChildrenType = {
   children: React.ReactNode;
@@ -22,7 +21,11 @@ export interface UserProps {
 }
 
 type ContextAuthProviderProps = {
-  signIn: (email: string, password: string) => Promise<void>;
+  signIn: (
+    email: string,
+    password: string,
+    ifKeepLoged: boolean
+  ) => Promise<void>;
   signUp: (username: string, email: string, password: string) => Promise<void>;
   showNotification: ({
     message,
@@ -32,7 +35,7 @@ type ContextAuthProviderProps = {
     type: string;
   }) => void;
   sigInWithGoogle: () => void;
-  user: UserProps | null;
+  user: UserProps | undefined;
   setUser: (user: UserProps) => void;
   logOut: () => Promise<void>;
 };
@@ -40,63 +43,99 @@ type ContextAuthProviderProps = {
 const ContextAuthProvider = React.createContext({} as ContextAuthProviderProps);
 
 export function AuthProvider({ children }: AuthProviderChildrenType) {
-  const [user, setUser] = React.useState<UserProps | null>(null);
+  const [user, setUser] = React.useState<UserProps | undefined>(undefined);
   const [notification, setNotification] = React.useState({
     message: "",
     type: "",
   });
 
-  const navigate = useNavigate();
-
   React.useEffect(() => {
     const userStoraged = localStorage.getItem("@User");
     if (userStoraged) setUser(JSON.parse(userStoraged));
-  }, []);
-
-  React.useEffect(() => {
-    if (user) {
-      navigate("/dashboard");
-    }
+    console.log(auth.currentUser);
   }, [user]);
 
-  const signIn = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password)
-      .then(async (value) => {
-        const idUser = value.user.uid;
 
-        const docRef = doc(db, "players", idUser);
-        const docSnap = getDoc(docRef);
-
-        if ((await docSnap).exists()) {
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const docRef = doc(db, "players", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
           const data: UserProps = {
-            uid: idUser,
-            username: (await docSnap).data()?.username,
-            email: value.user.email!,
-            password: (await docSnap).data()?.password,
+            uid: user.uid,
+            username: userData?.username,
+            email: user.email!,
+            password: userData?.password,
           };
-          setUser(data);
+          setUser(data as UserProps);
+        }
+      }
+    };
+    fetchData();
+  }, []);
+
+  const signIn = async (
+    email: string,
+    password: string,
+    ifKeepLoged: boolean
+  ) => {
+    try {
+      const value = await signInWithEmailAndPassword(auth, email, password);
+      const idUser = value.user.uid;
+
+      const docRef = doc(db, "players", idUser);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.data()) {
+        const userData = docSnap.data();
+        const data: UserProps = {
+          uid: idUser,
+          username: userData?.username,
+          email: value.user.email!,
+          password: userData?.password,
+        };
+
+        if (ifKeepLoged) {
           storageUser(data);
         }
+
+        if (!ifKeepLoged) {
+        }
+        setUser(data as UserProps);
 
         showNotification({
           message: "Logado com sucesso!",
           type: "success",
         });
-        window.location.href = "/welcome";
-      })
-      .catch((error) => {
-        if (error.message === "auth/user-not-found") {
-          showNotification({
-            message: "Email não encontrado",
-            type: "error",
-          });
-        } else if (error.message === "auth/wrong-password") {
-          showNotification({
-            message: "Senha inválida",
-            type: "error",
-          });
-        }
-      });
+
+        window.location.href = "/dashboard";
+      } else {
+        showNotification({
+          message: "Usuário não encontrado no banco de dados",
+          type: "error",
+        });
+      }
+    } catch (error: any) {
+      if (error.code === "auth/user-not-found") {
+        showNotification({
+          message: "Email não encontrado",
+          type: "error",
+        });
+      } else if (error.code === "auth/wrong-password") {
+        showNotification({
+          message: "Senha inválida",
+          type: "error",
+        });
+      } else {
+        showNotification({
+          message: "Erro ao fazer login",
+          type: "error",
+        });
+      }
+    }
   };
 
   const signUp = async (username: string, email: string, password: string) => {
@@ -129,13 +168,13 @@ export function AuthProvider({ children }: AuthProviderChildrenType) {
       });
   };
 
-  const storageUser = (data: UserProps) => {
+  const storageUser = (data: UserProps): void => {
     localStorage.setItem("@User", JSON.stringify(data));
   };
 
   const removeUser = () => {
     localStorage.removeItem("@User");
-    setUser(null);
+    setUser(undefined);
   };
 
   const logOut = async () => {

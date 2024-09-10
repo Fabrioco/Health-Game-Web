@@ -11,6 +11,7 @@ export default function Login() {
 
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [checkbox, setCheckbox] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState("password");
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -24,7 +25,7 @@ export default function Login() {
       return;
     }
 
-    signIn(email, password);
+    signIn(email, password, checkbox);
   };
 
   const signInGoogle = () => {
@@ -62,6 +63,15 @@ export default function Login() {
             ) : (
               <FaEye onClick={() => setShowPassword("password")} />
             )}
+          </div>
+          <div>
+            <label htmlFor="remember">Lembrar de mim</label>
+            <input
+              type="checkbox"
+              id="remember"
+              checked={checkbox}
+              onChange={() => setCheckbox(!checkbox)}
+            />
           </div>
           <Button type="submit" onClick={() => {}}>
             Entrar
