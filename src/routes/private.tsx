@@ -17,11 +17,6 @@ export function PrivateRoute({ children }: PrivateRouteProps) {
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
         setSigned(true);
-        setUser({
-          uid: user.uid,
-          email: user.email,
-          username: user.displayName,
-        } as UserProps);
       } else {
         navigate("/");
       }
