@@ -1,0 +1,53 @@
+export const questWeekly = [
+  {
+    id: 1,
+    name: "Praticar 150 minutos de atividade física (aeróbica ou musculação)",
+  },
+  { id: 2, name: "Planejar refeições saudáveis para a semana" },
+  { id: 3, name: "Fazer uma caminhada de 1 hora ao ar livre" },
+  { id: 4, name: "Desintoxicar o corpo bebendo chá verde diariamente" },
+  {
+    id: 5,
+    name: "Experimentar uma nova aula de exercício (ioga, pilates, etc.)",
+  },
+  { id: 6, name: "Comer 5 porções de frutas diferentes durante a semana" },
+  { id: 7, name: "Tirar um tempo para uma sessão de massagem ou relaxamento" },
+  { id: 8, name: "Fazer uma trilha ou passeio na natureza" },
+  { id: 9, name: "Evitar fast food durante a semana inteira" },
+  { id: 10, name: "Praticar 3 sessões de meditação guiada" },
+  {
+    id: 11,
+    name: "Fazer uma refeição rica em proteínas e vegetais todos os dias",
+  },
+  {
+    id: 12,
+    name: "Estabelecer uma rotina de sono consistente (dormir e acordar no mesmo horário)",
+  },
+  { id: 13, name: "Desconectar-se de redes sociais por um dia" },
+  { id: 14, name: "Fazer uma limpeza profunda em um ambiente da casa" },
+  { id: 15, name: "Passar tempo com amigos ou familiares ao ar livre" },
+  { id: 16, name: "Cozinhar uma refeição caseira saudável" },
+  { id: 17, name: "Comer uma refeição rica em ômega-3 (salmão, chia, nozes)" },
+  {
+    id: 18,
+    name: "Praticar gratidão, anotando 3 coisas pelas quais é grato a cada dia da semana",
+  },
+  {
+    id: 19,
+    name: "Fazer 2 dias de treino de força (musculação ou resistência)",
+  },
+  { id: 20, name: "Beber 2 litros de água diariamente" },
+  { id: 21, name: "Evitar açúcar refinado durante a semana" },
+  { id: 22, name: "Tomar um banho relaxante com óleos essenciais" },
+  { id: 23, name: "Comer uma salada diferente em 3 refeições da semana" },
+  { id: 24, name: "Dedicar 30 minutos à leitura de um livro" },
+  { id: 25, name: "Fazer exercícios de respiração profunda 3 vezes na semana" },
+  { id: 26, name: "Evitar álcool durante a semana" },
+  {
+    id: 27,
+    name: "Fazer 2 sessões de treino intervalado de alta intensidade (HIIT)",
+  },
+  { id: 28, name: "Realizar alongamentos por 10 minutos antes de dormir" },
+  { id: 29, name: "Organizar e planejar a semana seguinte" },
+  { id: 30, name: "Reduzir a ingestão de sal nas refeições" },
+];
