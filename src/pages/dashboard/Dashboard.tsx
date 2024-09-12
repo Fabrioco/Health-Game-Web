@@ -1,13 +1,16 @@
+import React from "react";
 import { useAuth } from "../../contexts/auth";
 import { FaTrophy } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import "./dashboardStyles.css";
 import Button from "../../components/button/Button";
-import { useNavigate } from "react-router-dom";
+import { ModalSettings } from "./components/modalSettings";
 
 export default function Dashboard() {
-  const navigate = useNavigate();
   const { user } = useAuth();
+
+  const [isOpenModalSettings, setIsOpenModalSettings] =
+    React.useState<string>("closed");
 
   console.log(user);
 
@@ -31,12 +34,18 @@ export default function Dashboard() {
           </div>
           <i className="settings">
             <IoSettings
-              onClick={() => navigate("/profile")}
+              onClick={() => setIsOpenModalSettings("openned")}
               color="#000"
               size={35}
             />
           </i>
         </div>
+
+        <ModalSettings
+          isOpenModalSettings={isOpenModalSettings.toString()}
+          setIsOpenModalSettings={setIsOpenModalSettings}
+        />
+
         <div className="main-dashboard__content">
           <div className="actual-quest-day">
             <span className="title">Tarefas do dia</span>

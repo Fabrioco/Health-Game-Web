@@ -6,7 +6,6 @@ import Welcome from "../pages/welcome/Welcome";
 import { AuthProvider } from "../contexts/auth";
 import { PrivateRoute } from "../routes/private";
 import Dashboard from "../pages/dashboard/Dashboard";
-import Profile from "../pages/profile/Profile";
 
 export default function App() {
   return (
@@ -29,14 +28,6 @@ export default function App() {
             element={
               <PrivateRoute>
                 <Dashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <PrivateRoute>
-                <Profile />
               </PrivateRoute>
             }
           />
